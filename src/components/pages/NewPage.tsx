@@ -6,11 +6,10 @@ import * as tf from '@tensorflow/tfjs';
 
 const NewPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  //const textRef = useRef<HTMLParagraphElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
   const frameBuffer = useRef<tf.Tensor3D[]>([]);
 
   const [title, setTitle] = useState('');
-  const [texts, setTexts] = useState<string[]>([]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const Phrases = [
@@ -80,7 +79,9 @@ const NewPage: React.FC = () => {
                 Math.max(...predictionArray),
               );
               //예측 결과를 화면에 표시
-              setTexts(prevTexts => [...prevTexts, Phrases[maxValue]]);
+              if (textRef.current) {
+                textRef.current.innerText = `${Phrases[maxValue]}`;
+              }
             }
             //다음 예측을 위해 일정 시간 후에 predict 함수 다시 호출
             setTimeout(predict, 1000 / 25);
@@ -127,9 +128,7 @@ const NewPage: React.FC = () => {
               <MemoBar></MemoBar>
               <OuterContainer>
                 <MemoScroll>
-                  {texts.map((text, index) => (
-                    <p key={index}>{text}</p>
-                  ))}
+                  <p ref={textRef}></p>
                   <Linear></Linear>
                 </MemoScroll>
               </OuterContainer>
