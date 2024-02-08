@@ -29,6 +29,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+
+  @media (max-width: 1000px) {
+    padding: 20px 25px;
+  }
 `;
 
 const LeftHeader = styled.div`
@@ -50,6 +54,10 @@ const LeftHeader = styled.div`
   > span {
     font-size: 15px;
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 `;
 
@@ -59,5 +67,9 @@ const RightHeader = styled.div`
     margin-right: 9px;
     font-size: 15px;
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 `;

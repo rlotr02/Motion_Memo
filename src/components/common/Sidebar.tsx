@@ -66,7 +66,7 @@ const Sidebar: React.FC = () => {
       <hr />
       {listData.map((data, index) => {
         return (
-          <div>
+          <div key={index}>
             <ListSub>
               <h2>
                 <span>&gt;</span>&nbsp; {data.subject}
@@ -75,7 +75,10 @@ const Sidebar: React.FC = () => {
             </ListSub>
             {data.title.map(data => {
               return (
-                <ListTitle onClick={() => navigate(`/memo/${data.id}`)}>
+                <ListTitle
+                  key={data.id}
+                  onClick={() => navigate(`/memo/${data.id}`)}
+                >
                   {data.item}
                 </ListTitle>
               );

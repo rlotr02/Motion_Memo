@@ -26,6 +26,10 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 1000px) {
+    padding: 20px 0 0 25px;
+  }
 `;
 
 const LeftHeader = styled.div`
@@ -43,6 +47,10 @@ const LeftHeader = styled.div`
     margin-right: 89px;
     font-size: 15px;
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 `;
 
@@ -51,6 +59,10 @@ const RightHeader = styled.div`
     margin-right: 70px;
     font-size: 15px;
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 
   > button {
@@ -60,5 +72,9 @@ const RightHeader = styled.div`
     padding: 6px 9px;
     font-size: 15px;
     font-weight: 600;
+
+    @media (max-width: 1000px) {
+      display: none;
+    }
   }
 `;
