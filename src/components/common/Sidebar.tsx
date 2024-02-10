@@ -99,6 +99,10 @@ const Container = styled.div`
   min-width: 242px;
   height: 100vh;
 
+  @media (max-width: 1500px) {
+    min-width: 200px;
+  }
+
   > hr {
     width: 100%;
     margin: 0;

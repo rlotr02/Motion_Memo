@@ -38,7 +38,7 @@ const NewPage: React.FC = () => {
           if (videoRef.current) videoRef.current.srcObject = stream;
         } catch (error) {
           //카메라 접근이 거부된 경우 경고 메시지 표시
-          alert('Camera access was denied');
+          //alert('Camera access was denied');
         }
 
         //Tensorflow.js 모델 로드
@@ -149,8 +149,14 @@ const Container = styled.div`
 const MemoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
-  padding: 80px 105px;
+  height: 85vh;
+  padding: 0 105px;
+
+  @media (max-width: 1800px) {
+    padding: 0 115px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -190,6 +196,11 @@ const WebCamContainer = styled.div`
   > video {
     width: 695px;
     height: 505px;
+    background-color: red;
+
+    @media (max-width: 1800px) {
+      width: 600px;
+    }
   }
 `;
 
@@ -197,6 +208,11 @@ const Memo = styled.div`
   width: 695px;
   margin-left: 74px;
   box-shadow: 1px 1px 12.937px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 1800px) {
+    width: 600px;
+    margin-left: 70px;
+  }
 `;
 
 const MemoBar = styled.div`
@@ -206,7 +222,7 @@ const MemoBar = styled.div`
 `;
 
 const OuterContainer = styled.div`
-  padding: 5px;
+  padding: 6px;
   background: #fffacf;
   position: relative;
 `;
@@ -240,7 +256,7 @@ const MemoScroll = styled.div`
 
 const Linear = styled.div`
   position: absolute;
-  width: 695px;
+  width: 100%;
   height: 99px;
   bottom: 0;
   left: 0;
