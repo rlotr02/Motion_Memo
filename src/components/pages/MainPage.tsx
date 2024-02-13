@@ -57,6 +57,16 @@ const DivContainer = styled.div`
   width: 800px;
   height: 800px;
 
+  @media (max-width: 800px), (max-height: 800px) {
+    width: 700px;
+    height: 700px;
+  }
+
+  @media (max-width: 600px), (max-height: 600px) {
+    width: 500px;
+    height: 500px;
+  }
+
   > h1 {
     color: #000000;
     font-weight: 800;
@@ -64,6 +74,18 @@ const DivContainer = styled.div`
     line-height: 60px;
     width: 500px;
     margin-bottom: 24px;
+
+    @media (max-width: 800px), (max-height: 800px) {
+      font-size: 40px;
+      width: 400px;
+    }
+
+    @media (max-width: 600px), (max-height: 600px) {
+      font-size: 28px;
+      line-height: 45px;
+      margin-bottom: 15spx;
+      width: 280px;
+    }
   }
 
   > p {
@@ -72,6 +94,16 @@ const DivContainer = styled.div`
     line-height: 20px;
     color: rgba(0, 0, 0, 0.91);
     margin-bottom: 57px;
+
+    @media (max-width: 800px), (max-height: 800px) {
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 600px), (max-height: 600px) {
+      font-size: 13px;
+      line-height: 16px;
+      margin-bottom: 30px;
+    }
   }
 
   > button {
@@ -84,6 +116,11 @@ const DivContainer = styled.div`
     line-height: 24px;
     color: #000000;
     filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+
+    @media (max-width: 600px), (max-height: 600px) {
+      font-size: 15px;
+      padding: 10px 20px;
+    }
   }
 
   > span {
@@ -93,5 +130,14 @@ const DivContainer = styled.div`
     font-size: 20px;
     line-height: 24px;
     color: rgba(0, 0, 0, 0.28);
+
+    @media (max-width: 800px), (max-height: 800px) {
+      bottom: 20%;
+    }
+
+    @media (max-width: 600px), (max-height: 600px) {
+      font-size: 13px;
+      bottom: 18%;
+    }
   }
 `;
