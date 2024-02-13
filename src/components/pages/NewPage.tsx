@@ -123,13 +123,14 @@ const NewPage: React.FC = () => {
             <button onClick={saveMemo}>SAVE</button>
           </TitleContainer>
           <WebCamContainer>
-            <video ref={videoRef} autoPlay width="695" height="505"></video>
+            <VideoContainer>
+              <video ref={videoRef} autoPlay></video>
+            </VideoContainer>
             <Memo>
               <MemoBar></MemoBar>
               <OuterContainer>
                 <MemoScroll>
                   <p ref={textRef}></p>
-                  <Linear></Linear>
                 </MemoScroll>
               </OuterContainer>
             </Memo>
@@ -154,8 +155,12 @@ const MemoContainer = styled.div`
   height: 85vh;
   padding: 0 105px;
 
-  @media (max-width: 1800px) {
-    padding: 0 115px;
+  @media (max-width: 1500px) {
+    padding: 0 50px;
+  }
+
+  @media (max-width: 670px) {
+    align-items: center;
   }
 `;
 
@@ -163,6 +168,10 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+
+  @media (max-width: 670px) {
+    width: 300px;
+  }
 
   > input {
     font-weight: 800;
@@ -173,6 +182,27 @@ const TitleContainer = styled.div`
 
     &::placeholder {
       color: #b9b5b5;
+    }
+
+    @media (max-width: 1500px) {
+      font-size: 50px;
+      line-height: normal;
+    }
+
+    @media (max-width: 1200px) {
+      font-size: 40px;
+    }
+
+    @media (max-width: 1000px) {
+      font-size: 30px;
+    }
+
+    @media (max-width: 840px) {
+      font-size: 20px;
+    }
+
+    @media (max-width: 670px) {
+      max-width: 200px;
     }
   }
 
@@ -186,49 +216,103 @@ const TitleContainer = styled.div`
     font-size: 20px;
     line-height: 24px;
     color: #000000;
+
+    @media (max-width: 1200px) {
+      padding: 12px 30px;
+      font-size: 16px;
+      line-height: normal;
+    }
+
+    @media (max-width: 1000px) {
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: normal;
+    }
+
+    @media (max-width: 840px) {
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    @media (max-width: 670px) {
+      padding: 8px 15px;
+    }
   }
 `;
 
 const WebCamContainer = styled.div`
   display: flex;
+  gap: 74px;
   margin-top: 35px;
 
-  > video {
-    width: 695px;
-    height: 505px;
-    background-color: red;
+  @media (max-width: 1500px) {
+    gap: 50px;
+  }
 
-    @media (max-width: 1800px) {
-      width: 600px;
+  @media (max-width: 670px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+`;
+
+const VideoContainer = styled.div`
+  flex: 1 0 0;
+
+  > video {
+    width: 100%;
+
+    @media (max-width: 670px) {
+      width: 300px;
+      height: 200px;
     }
   }
 `;
 
 const Memo = styled.div`
-  width: 695px;
-  margin-left: 74px;
+  flex: 1 0 0;
   box-shadow: 1px 1px 12.937px rgba(0, 0, 0, 0.5);
 
-  @media (max-width: 1800px) {
-    width: 600px;
-    margin-left: 70px;
+  @media (max-width: 670px) {
+    width: 300px;
+    height: 200px;
   }
 `;
 
 const MemoBar = styled.div`
   width: 100%;
-  height: 54.62px;
+  height: 10%;
   background: #fff06b;
 `;
 
 const OuterContainer = styled.div`
-  padding: 6px;
+  padding: 5px;
+  height: 90%;
   background: #fffacf;
   position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    bottom: 0;
+    left: 0;
+
+    background: linear-gradient(
+      180deg,
+      rgba(255, 250, 207, 0) 0%,
+      rgba(0, 0, 0, 0.19) 100%
+    );
+  }
 `;
 
 const MemoScroll = styled.div`
-  height: 440px;
+  height: 20vw;
+  flex-grow: 1;
   padding: 21px 22px 21px 28px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -246,24 +330,31 @@ const MemoScroll = styled.div`
     border-radius: 9px;
   }
 
+  @media (max-width: 1200px) {
+    padding: 11px 12px 11px 18px;
+  }
+
+  @media (max-width: 840px) {
+    padding: 7px 8px 7px 14px;
+  }
+
+  @media (max-width: 670px) {
+    height: 445px;
+  }
+
   > p {
     font-weight: 600;
     font-size: 21.2082px;
     line-height: 28px;
     color: #000000;
+
+    @media (max-width: 1200px) {
+      font-size: 18px;
+      line-height: normal;
+    }
+
+    @media (max-width: 840px) {
+      font-size: 15px;
+    }
   }
-`;
-
-const Linear = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 99px;
-  bottom: 0;
-  left: 0;
-
-  background: linear-gradient(
-    180deg,
-    rgba(255, 250, 207, 0) 0%,
-    rgba(0, 0, 0, 0.19) 100%
-  );
 `;
