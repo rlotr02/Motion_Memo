@@ -1,8 +1,20 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Sidebar: React.FC = () => {
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/lessons')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log('Error fetching data', error);
+      });
+  }, []);
+  
   const DUMMY_DATA = [
     {
       subject: 'Lesson',
