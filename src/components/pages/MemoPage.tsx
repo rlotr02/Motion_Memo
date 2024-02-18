@@ -15,7 +15,7 @@ const MemoPage: React.FC = () => {
     const getTopicContents = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/topic/${topicId}`,
+          `http://localhost:8080/api/topics/${topicId}`,
         );
         console.log(response.data);
         setTopicContents(response.data);
