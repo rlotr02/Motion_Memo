@@ -2,9 +2,15 @@ import styled from 'styled-components';
 import MemoHeader from '../common/MemoHeader';
 import Sidebar from '../common/Sidebar';
 import { useRef, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as tf from '@tensorflow/tfjs';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const NewPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const lessonId = location.pathname.replace('/new/', '');
   const videoRef = useRef<HTMLVideoElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
   const frameBuffer = useRef<tf.Tensor3D[]>([]);
@@ -101,8 +107,20 @@ const NewPage: React.FC = () => {
     setTitle(target);
   };
 
-  const saveMemo = () => {
-    console.log(title);
+  const saveMemo = async () => {
+    if (textRef.current && title) {
+      try {
+        const response = await axios.post('http://localhost:8080/api/topics', {
+          lessonId: Number(lessonId),
+          title: title,
+          content: textRef.current.textContent,
+        });
+        console.log(response.data);
+        navigate(`/memo/${response.data.topicId}`);
+      } catch (error) {
+        console.log('Error fetching data', error);
+      }
+    }
   };
 
   return (

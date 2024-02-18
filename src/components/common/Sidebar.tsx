@@ -2,65 +2,53 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { LessonType } from '../types/Type';
 
 const Sidebar: React.FC = () => {
-  useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/lessons')
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching data', error);
-      });
-  }, []);
-  
-  const DUMMY_DATA = [
-    {
-      subject: 'Lesson',
-      title: [
-        {
-          id: 1,
-          item: '#1 TITLE',
-        },
-        {
-          id: 2,
-          item: '#2 TITLE',
-        },
-      ],
-    },
-  ];
-
   const navigate = useNavigate();
-  const [listData, setListData] = useState(DUMMY_DATA);
+  const [listData, setListData] = useState<LessonType[]>();
 
-  const newSubjectHandler = () => {
-    const newSubjectId = listData.length + 1;
-    const newSubjectName =
-      newSubjectId > 1 ? `Lesson${newSubjectId}` : 'Lesson';
-
-    const newSubject = {
-      subject: newSubjectName,
-      title: [],
+  useEffect(() => {
+    const getLessonList = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/lessons');
+        console.log(response.data);
+        setListData(response.data);
+      } catch (error) {
+        console.log('Error fetching data', error);
+      }
     };
 
-    setListData(prevListData => [...prevListData, newSubject]);
+    getLessonList();
+  }, []);
+
+  const newSubjectHandler = async () => {
+    const newLessonName =
+      listData && listData.length > 0
+        ? `Lesson${listData.length + 1}`
+        : 'Lesson';
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/lessons', {
+        name: newLessonName,
+      });
+      console.log(response.data);
+      const newLesson = {
+        lessonId: response.data.lessonId,
+        name: newLessonName,
+        topics: [],
+      };
+      setListData(prevListData =>
+        prevListData ? [...prevListData, newLesson] : [newLesson],
+      );
+    } catch (error) {
+      console.log('Error fetching data', error);
+    }
   };
 
-  const newTitleHandler = (subjectIndex: number) => {
-    const newTitleId = listData[subjectIndex].title.length + 1;
-    const newTitleItem = `#${newTitleId} TITLE`;
-
-    const newTitle = {
-      id: newTitleId,
-      item: newTitleItem,
-    };
-
-    setListData(prevListData => {
-      const updatedListData = [...prevListData];
-      updatedListData[subjectIndex].title.push(newTitle);
-      return updatedListData;
-    });
+  const newTitleHandler = (lessonId: number) => {
+    console.log(lessonId);
+    navigate(`/new/${lessonId}`);
   };
 
   return (
@@ -76,28 +64,31 @@ const Sidebar: React.FC = () => {
         <button onClick={newSubjectHandler}>+</button>
       </NavItem>
       <hr />
-      {listData.map((data, index) => {
-        return (
-          <div key={index}>
-            <ListSub>
-              <h2>
-                <span>&gt;</span>&nbsp; {data.subject}
-              </h2>
-              <button onClick={() => newTitleHandler(index)}>+</button>
-            </ListSub>
-            {data.title.map(data => {
-              return (
-                <ListTitle
-                  key={data.id}
-                  onClick={() => navigate(`/memo/${data.id}`)}
-                >
-                  {data.item}
-                </ListTitle>
-              );
-            })}
-          </div>
-        );
-      })}
+      {listData &&
+        listData.map((data, index) => {
+          return (
+            <div key={index}>
+              <ListSub>
+                <h2>
+                  <span>&gt;</span>&nbsp; {data.name}
+                </h2>
+                <button onClick={() => newTitleHandler(data.lessonId)}>
+                  +
+                </button>
+              </ListSub>
+              {data.topics.map(data => {
+                return (
+                  <ListTitle
+                    key={data.topicId}
+                    onClick={() => navigate(`/memo/${data.topicId}`)}
+                  >
+                    {data.title}
+                  </ListTitle>
+                );
+              })}
+            </div>
+          );
+        })}
     </Container>
   );
 };
@@ -156,6 +147,9 @@ const ListSub = styled.div`
     font-size: 15.9061px;
     line-height: 19px;
     color: #000000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     > span {
       display: inline-block;
@@ -180,6 +174,9 @@ const ListTitle = styled.div`
   font-weight: 600;
   font-size: 15.9061px;
   line-height: 19px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: #000000;
   cursor: pointer;
 `;

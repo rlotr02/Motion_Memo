@@ -1,8 +1,32 @@
 import styled from 'styled-components';
 import MemoHeader from '../common/MemoHeader';
 import Sidebar from '../common/Sidebar';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import { TopicType } from '../types/Type';
 
 const MemoPage: React.FC = () => {
+  const location = useLocation();
+  const topicId = location.pathname.replace('/memo/', '');
+  const [topicContents, setTopicContents] = useState<TopicType>();
+
+  useEffect(() => {
+    const getTopicContents = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/topic/${topicId}`,
+        );
+        console.log(response.data);
+        setTopicContents(response.data);
+      } catch (error) {
+        console.log('Error fetching data', error);
+      }
+    };
+
+    getTopicContents();
+  }, [topicId]);
+
   return (
     <div>
       <MemoHeader />
@@ -10,18 +34,10 @@ const MemoPage: React.FC = () => {
         <Sidebar />
         <MemoContainer>
           <TitleContainer>
-            <h1>Mathematics</h1>
+            <h1>{topicContents && topicContents.title}</h1>
             <button>MODIFY</button>
           </TitleContainer>
-          <Memo>
-            When adding integers with the same sign, add their absolute values
-            and keep the sign. Example: (+3) + (+5) = +8 When multiplying
-            integers, if the signs are the same, the result is positive. If the
-            signs are different, the result is negative. Example: (-2) * (+6) =
-            -12 Dividing integers follows similar rules to multiplication. The
-            sign of the quotient depends on the signs of the numbers being
-            divided. Example: (-10) / (+2) = -5
-          </Memo>
+          <Memo>{topicContents && topicContents.content}</Memo>
         </MemoContainer>
       </Container>
     </div>
@@ -59,6 +75,8 @@ const TitleContainer = styled.div`
     font-size: 63px;
     line-height: 80px;
     color: #000000;
+    overflow: hidden;
+    white-space: nowrap;
 
     @media (max-width: 1500px) {
       font-size: 50px;
@@ -78,7 +96,7 @@ const TitleContainer = styled.div`
     }
 
     @media (max-width: 670px) {
-      max-width: 200px;
+      padding-right: 20px;
     }
   }
 
